@@ -7,6 +7,7 @@ import { sizeProposal } from "../src/strategy/sizing.js";
 import { DrawdownGuard } from "../src/risk/drawdown-guard.js";
 import { KillSwitch } from "../src/risk/kill-switch.js";
 import { OrderRouter } from "../src/execution/order-router.js";
+import { PaperBidClient } from "../src/execution/bid-client.js";
 import { endgameProposal } from "../src/strategy/endgame-rebalance.js";
 
 const cfg = loadConfig({ BID_MODE: "paper", CLAY_LOG_LEVEL: "silent" } as NodeJS.ProcessEnv);
@@ -74,6 +75,18 @@ describe("order router", () => {
     await router.route(state, decision);
     expect(orders).toBe(1);
   });
+
+  it("allows repeated same-side orders after duplicate TTL expires", async () => {
+    let orders = 0;
+    const client = { events: async function* () {}, submitOrder: async (order: any) => { orders++; return { id: order.clientOrderId, roundId: order.roundId, ts: 0, action: order.action, sizeUsd: order.sizeUsd, price: 1, tokenAmount: order.sizeUsd, module: "test" }; } };
+    const router = new OrderRouter(client);
+    const state = trendingRound(1);
+    const decision: any = { action: "BUY", sizeUsd: 5, rationale: { module: "momentum" } };
+    await router.route(state, decision);
+    const later = { ...state, ticks: [...state.ticks, { roundId: "r", ts: 100_000, price: 1.2 }] };
+    await router.route(later, decision);
+    expect(orders).toBe(2);
+  });
 });
 
 describe("endgame rebalance", () => {
@@ -89,5 +102,18 @@ describe("endgame rebalance", () => {
 describe("config", () => {
   it("validates live credentials", () => {
     expect(() => loadConfig({ BID_MODE: "live" } as NodeJS.ProcessEnv)).toThrow();
+  });
+});
+
+
+describe("paper client", () => {
+  it("fills at the latest paper mark instead of a constant placeholder", async () => {
+    const client = new PaperBidClient(cfg);
+    const iterator = client.events()[Symbol.asyncIterator]();
+    await iterator.next();
+    await iterator.next();
+    const fill = await client.submitOrder({ roundId: "paper", action: "BUY", sizeUsd: 10, clientOrderId: "paper-1", reason: { regime: "CHOP_NO_EDGE", confidence: 0, signals: {}, module: "test", timeRemaining: 0, inventoryState: { usdc: 10, token: 0, avgEntryPrice: 0, realizedPnl: 0, lastMarkPrice: 1 }, finalAction: "BUY", finalSize: 10 } });
+    expect(fill.price).not.toBe(1);
+    expect(fill.tokenAmount).toBeCloseTo(fill.sizeUsd / fill.price);
   });
 });

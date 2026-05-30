@@ -103,7 +103,7 @@ ClayHunter hard-codes bankroll survival behavior:
 
 ## Limitations
 
-The included `HttpBidClient` is intentionally an adapter boundary because final BID Protocol custom-agent endpoints and payloads must be supplied by the competition environment. Paper mode and replay mode are fully local; live mode validates credentials and submits orders through the configured HTTP endpoint.
+The included `HttpBidClient` is intentionally an adapter boundary because final BID Protocol custom-agent endpoints and payloads must be supplied by the competition environment. Paper mode and replay mode are fully local; live mode validates credentials, supports WebSocket or HTTP/SSE-style event streams, and submits orders through the configured HTTP endpoint.
 
 ## Future improvements
 
