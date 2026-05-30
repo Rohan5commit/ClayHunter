@@ -1,0 +1,43 @@
+{
+  "name": "clayhunter",
+  "version": "0.1.0",
+  "description": "A custom dissolution-aware PvP trading agent for BID Protocol.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "run:paper": "tsx src/cli/run-paper.ts",
+    "run:live": "tsx src/cli/run-live.ts",
+    "replay": "tsx src/cli/replay.ts",
+    "inspect": "tsx src/cli/inspect.ts",
+    "status": "tsx src/cli/status.ts",
+    "submit:ready": "tsx src/cli/submit-ready.ts"
+  },
+  "keywords": [
+    "bid-protocol",
+    "trading-agent",
+    "hackathon",
+    "typescript"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^20.12.12",
+    "dotenv": "^16.4.5",
+    "ethers": "^6.12.1",
+    "pino": "^9.1.0",
+    "pino-pretty": "^11.0.0",
+    "tsx": "^4.11.0",
+    "ws": "^8.21.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.18.1",
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
