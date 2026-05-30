@@ -22,6 +22,7 @@ cp .env.example .env
 pnpm test
 pnpm run:paper
 pnpm replay
+pnpm submit:ready
 ```
 
 ## Environment configuration
@@ -50,6 +51,7 @@ pnpm run:live       # live execution adapter using env credentials
 pnpm replay [id]    # replay a recorded round and print metrics/rationale
 pnpm inspect [id]   # inspect recent machine-readable decisions
 pnpm status         # show local recording status
+pnpm submit:ready   # run final submission smoke test
 pnpm test           # run unit tests
 pnpm build          # type-check and compile
 ```

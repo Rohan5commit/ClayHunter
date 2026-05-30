@@ -12,7 +12,8 @@
     "run:live": "tsx src/cli/run-live.ts",
     "replay": "tsx src/cli/replay.ts",
     "inspect": "tsx src/cli/inspect.ts",
-    "status": "tsx src/cli/status.ts"
+    "status": "tsx src/cli/status.ts",
+    "submit:ready": "tsx src/cli/submit-ready.ts"
   },
   "keywords": [
     "bid-protocol",

@@ -10,10 +10,10 @@ Run:
 
 ```bash
 cp .env.example .env
-pnpm test
+pnpm submit:ready
 ```
 
-Point out env validation, risk limits, signal thresholds, and live credentials.
+Point out that one command runs tests, build, paper mode, replay, inspect, and status. Then show env validation, risk limits, signal thresholds, and live credentials.
 
 ## 1:00–2:00 — Paper run
 
@@ -39,3 +39,7 @@ Show module counts, regime counts, trade counts, ending value, and rationale rep
 ## 3:00–4:00 — Why it beats naive hosted logic
 
 Emphasize: observation-only start, confidence-gated live trading, no-edge HOLD, endgame dissolution utility, and bankroll survival across many finite-bankroll games.
+
+## Final 20-second close
+
+Say: ClayHunter is submission-ready because the agent runs end to end, records every round, explains every decision, can replay/tune logs, and has a live adapter ready for BID credentials. The differentiator is dissolution-aware endgame inventory, not generic hosted-agent momentum.
